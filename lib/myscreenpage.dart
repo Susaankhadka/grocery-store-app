@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:practiceapps/cartpage.dart';
 import 'package:practiceapps/categoriesss.dart';
 import 'package:practiceapps/contact.dart';
@@ -17,6 +18,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   var currentpage = 0;
   var selectedindex = 0;
+  late Timer _timer;
+  late TabController _tabcontroller;
   PageController slidercontroller = PageController(viewportFraction: 0.8);
   sliderfunction() {
     _timer = Timer.periodic(Duration(seconds: 4), (timer) {
@@ -29,8 +32,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     });
   }
 
-  late Timer _timer;
-  late TabController _tabcontroller;
   @override
   void initState() {
     super.initState();
@@ -56,6 +57,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 255, 255, 255),
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text(
           'Bazar Sansar',
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
@@ -63,17 +65,39 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         backgroundColor: Colors.transparent,
         centerTitle: true,
         elevation: 0,
+
+        // leading: Builder(
+        //   builder:
+        //       (context) => SizedBox(
+        //         child: IconButton(
+        //           // 👈 shift icon properly
+        //           icon: Icon(Icons.menu, size: 30),
+        //           onPressed: () {
+        //             Scaffold.of(context).openDrawer();
+        //           },
+        //         ),
+        //       ),
+        // ),
+        // leadingWidth: 80,
         leading: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
-          child: IconButton(onPressed: () {}, icon: Icon(Icons.menu, size: 30)),
+          padding: const EdgeInsets.all(12.0),
+          child: SvgPicture.asset(
+            'assets/icons/shopinglogo.svg',
+            height: 20,
+            width: 20,
+          ),
         ),
         actions: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-
-            child: IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.person_pin, size: 30),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Builder(
+              builder:
+                  (context) => IconButton(
+                    onPressed: () {
+                      Scaffold.of(context).openEndDrawer();
+                    },
+                    icon: SvgPicture.asset('assets/icons/profile.svg'),
+                  ),
             ),
           ),
         ],
@@ -190,6 +214,95 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         ),
       ),
       bottomNavigationBar: buttonnavigation(),
+      endDrawer: Drawer(
+        width: 280,
+        child: ListView(
+          children: [
+            DrawerHeader(
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: SizedBox(
+                      height: 70,
+                      child: SvgPicture.asset(
+                        'assets/icons/profile.svg',
+                        height: 70,
+                        width: 70,
+                      ),
+                    ),
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Susaan', style: TextStyle(fontSize: 22)),
+
+                      TextButton(
+                        onPressed: () {},
+                        style: TextButton.styleFrom(
+                          padding: EdgeInsets.zero, // no extra padding
+                          minimumSize: Size(0, 0),
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        ),
+                        child: Text(
+                          'View profile',
+                          style: TextStyle(
+                            fontSize: 15,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: Column(
+                children: [
+                  ListTile(
+                    leading: Icon(Icons.person_outlined),
+                    title: Text('Your Profile'),
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.shopping_cart),
+                    title: Text('Cart'),
+                  ),
+
+                  ListTile(
+                    leading: Icon(Icons.control_point_duplicate_sharp),
+                    title: Text('Reward and Earn'),
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.settings),
+                    title: Text('Setting'),
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.support_agent),
+                    title: Text('Help/Supports'),
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.notifications),
+                    title: Text('Notification'),
+                  ),
+
+                  ListTile(
+                    leading: Icon(Icons.info_outline),
+                    title: Text('About'),
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.logout_rounded),
+                    title: Text('Log Out'),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
