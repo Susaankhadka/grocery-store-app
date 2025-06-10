@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:practiceapps/cartpage.dart';
 import 'package:practiceapps/categoriesss.dart';
 import 'package:practiceapps/contact.dart';
+//import 'package:practiceapps/loginpage.dart';
 //import 'package:practiceapps/rado.dart';
 import 'categorielist.dart';
 import 'dart:async';
@@ -299,10 +300,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   ListTile(
                     leading: Icon(Icons.person_outlined),
                     title: Text('Your Profile'),
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.shopping_cart),
-                    title: Text('Cart'),
                   ),
 
                   ListTile(
