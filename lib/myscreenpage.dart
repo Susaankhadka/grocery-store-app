@@ -15,12 +15,59 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
-  var currentpage = 0;
+class _HomePageState extends State<HomePage> {
+  final List<Widget> _pages = [MyHomePage(), ContactPage(), cartpage()];
   var selectedindex = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Color.fromARGB(255, 255, 255, 255),
+
+      body: IndexedStack(index: selectedindex, children: _pages),
+      bottomNavigationBar: buttonnavigation(),
+    );
+  }
+
+  BottomNavigationBar buttonnavigation() {
+    return BottomNavigationBar(
+      currentIndex: selectedindex,
+
+      onTap: (index) {
+        setState(() {
+          selectedindex = index;
+        });
+      },
+
+      selectedItemColor: Color.fromARGB(243, 237, 4, 4),
+      items: [
+        BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.add_shopping_cart),
+          label: 'Cart',
+        ),
+        BottomNavigationBarItem(icon: Icon(Icons.phone), label: 'Contact Us'),
+      ],
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key});
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
+  var currentpage = 0;
+
   late Timer _timer;
+
   late TabController _tabcontroller;
+
   PageController slidercontroller = PageController(viewportFraction: 0.8);
+
   sliderfunction() {
     _timer = Timer.periodic(Duration(seconds: 4), (timer) {
       currentpage++;
@@ -46,16 +93,16 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   @override
   void dispose() {
+    _tabcontroller.dispose();
     slidercontroller.dispose();
     _timer.cancel();
-    _tabcontroller.dispose();
+
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 255, 255, 255),
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text(
@@ -66,19 +113,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         centerTitle: true,
         elevation: 0,
 
-        // leading: Builder(
-        //   builder:
-        //       (context) => SizedBox(
-        //         child: IconButton(
-        //           // 👈 shift icon properly
-        //           icon: Icon(Icons.menu, size: 30),
-        //           onPressed: () {
-        //             Scaffold.of(context).openDrawer();
-        //           },
-        //         ),
-        //       ),
-        // ),
-        // leadingWidth: 80,
         leading: Padding(
           padding: const EdgeInsets.all(12.0),
           child: SvgPicture.asset(
@@ -213,7 +247,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           ],
         ),
       ),
-      bottomNavigationBar: buttonnavigation(),
       endDrawer: Drawer(
         width: 280,
         child: ListView(
@@ -303,39 +336,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           ],
         ),
       ),
-    );
-  }
-
-  BottomNavigationBar buttonnavigation() {
-    return BottomNavigationBar(
-      currentIndex: selectedindex,
-
-      onTap: (index) {
-        setState(() {
-          selectedindex = index;
-          if (selectedindex == 1) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => cartpage()),
-            );
-          } else if (selectedindex == 2) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => ContactPage()),
-            );
-          }
-        });
-      },
-
-      selectedItemColor: Color.fromARGB(243, 237, 4, 4),
-      items: [
-        BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.add_shopping_cart),
-          label: 'Cart',
-        ),
-        BottomNavigationBarItem(icon: Icon(Icons.phone), label: 'Contact Us'),
-      ],
     );
   }
 }

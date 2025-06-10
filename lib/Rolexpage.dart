@@ -6,30 +6,7 @@ class Rolex extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Rolex pages'),
-        centerTitle: true,
-        leading: Builder(
-          builder:
-              (context) => IconButton(
-                onPressed: () {
-                  Scaffold.of(context).openDrawer();
-                },
-                icon: Icon(Icons.menu),
-              ),
-        ),
-      ),
-
-      drawer: Drawer(
-        child: ListView(
-          children: [
-            DrawerHeader(child: Text('Header')),
-            ListTile(title: Text('contact')),
-            ListTile(title: Text('service')),
-            ListTile(title: Text('about us')),
-          ],
-        ),
-      ),
+      appBar: AppBar(title: Text('Rolex pages'), centerTitle: true),
     );
   }
 }
